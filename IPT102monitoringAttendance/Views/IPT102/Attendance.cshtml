@@ -1,0 +1,305 @@
+﻿@model IPT102monitoringAttendance.Models.AttendanceViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Model.Section - Attendance</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2c007e, #1a004d);
+            color: white;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            background: #b3d9ff;
+            color: #6b40e3;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+            .btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .date-selector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+            .date-selector label {
+                margin-bottom: 0.5rem;
+                font-weight: bold;
+            }
+
+            .date-selector input[type="date"] {
+                padding: 0.5rem;
+                border-radius: 10px;
+                border: 1px solid white;
+                background: rgba(255,255,255,0.9);
+                color: #333;
+                font-size: 1rem;
+            }
+
+        .attendance-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table-header {
+            background: rgba(255, 255, 255, 0.2);
+            font-weight: bold;
+        }
+
+        .table-cell {
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .status-btn {
+            padding: 0.3rem 0.6rem;
+            margin: 0.2rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .present {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .absent {
+            background: #f44336;
+            color: white;
+        }
+
+        .late {
+            background: #FF9800;
+            color: white;
+        }
+
+        .unmarked {
+            background: #9E9E9E;
+            color: white;
+        }
+
+        .action-buttons {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .add-student-form {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+            .add-student-form input {
+                padding: 0.5rem;
+                border-radius: 10px;
+                border: 1px solid white;
+                background: rgba(255,255,255,0.9);
+                color: #333;
+                min-width: 120px;
+            }
+
+        @@media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .info-box {
+                flex-direction: column;
+            }
+
+            .attendance-table {
+                font-size: 0.85rem;
+            }
+
+            .table-cell {
+                padding: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="@Url.Action("ProfSchedule", "IPT102")" class="btn">BACK TO SCHEDULE</a>
+        <h1 class="page-title">ATTENDANCE MONITORING</h1>
+<!-- In the header section, replace the logout button -->
+<a href="@Url.Action("Logout", "IPT102")" class="btn">LOGOUT</a>    </div>
+
+    <div class="info-box">
+        <div>
+            <h2>@Model.Section</h2>
+        </div>
+        <div>
+            <h3 style="font-size: 1.2rem; margin-top: 0.5rem;">Subject: @Model.Subject</h3>
+        </div>
+        <div class="date-selector">
+            <label for="datePicker">SELECT DATE:</label>
+            <input type="date" id="datePicker" value="@Model.Date.ToString("yyyy-MM-dd")" />
+        </div>
+        <div style="font-weight:bold; background: rgba(255,255,255,0.15); padding:.4rem .8rem; border-radius: 10px;">
+            @(ViewBag.SemesterLabel ?? "")
+        </div>
+    </div>
+
+    <!-- Add Student Form removed as requested -->
+
+    <!-- Excel Upload Form: separated row, centered, with extra margin -->
+<div style="display: flex; justify-content: center; margin-top: 2rem; margin-bottom: 2rem;">
+    <form asp-action="UploadMasterList" asp-controller="IPT102" method="post" enctype="multipart/form-data" style="display: flex; gap: 1rem; align-items: center;">
+        <input type="hidden" name="section" value="@Model.Section" />
+        <input type="hidden" name="subject" value="@Model.Subject" />
+        <input type="file" name="excelFile" accept=".xlsx,.xls" required />
+        <button type="submit" class="btn">Upload Master List (Excel)</button>
+    </form>
+</div>
+@if (TempData["Error"] != null)
+{
+    <div style="color:red; margin-bottom:1em; text-align: center;">@TempData["Error"]</div>
+}
+@if (TempData["Success"] != null)
+{
+    <div style="color:lightgreen; margin-bottom:1em; text-align: center;">@TempData["Success"]</div>
+}
+
+    <!-- Attendance Form -->
+    <form id="attendanceForm" asp-action="SaveAttendance" asp-controller="IPT102" method="post">
+        <input type="hidden" name="section" value="@Model.Section" />
+        <input type="hidden" name="subject" value="@Model.Subject" />
+        <input type="hidden" name="date" id="formDate" value="@Model.Date.ToString("yyyy-MM-dd")" />
+
+        <table class="attendance-table">
+            <thead>
+                <tr class="table-header">
+                    <th class="table-cell">STUDENT NUMBER</th>
+                    <th class="table-cell">NAME</th>
+                    <th class="table-cell">STATUS</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Students.Count; i++)
+                {
+                    <tr>
+                        <td class="table-cell">
+                            @Model.Students[i].StudentNumber
+                            <input type="hidden" name="students.Index" value="@i" />
+                            <input type="hidden" name="students[@i].StudentId" value="@Model.Students[i].StudentId" />
+                            <input type="hidden" name="students[@i].StudentNumber" value="@Model.Students[i].StudentNumber" />
+                            <input type="hidden" name="students[@i].Name" value="@Model.Students[i].Name" />
+                        </td>
+                        <td class="table-cell">@Model.Students[i].Name</td>
+                        <td class="table-cell">
+                            @{
+                                string status = Model.Students[i].Status;
+                                bool isPresent = status == "Present";
+                                bool isAbsent = status == "Absent";
+                                bool isLate = status == "Late";
+                            }
+                            <button type="button" class="status-btn @(isPresent ? "present" : "unmarked")"
+                                    onclick="setStatus(this, 'Present', @i)">
+                                PRESENT
+                            </button>
+                            <button type="button" class="status-btn @(isAbsent ? "absent" : "unmarked")"
+                                    onclick="setStatus(this, 'Absent', @i)">
+                                ABSENT
+                            </button>
+                            <button type="button" class="status-btn @(isLate ? "late" : "unmarked")"
+                                    onclick="setStatus(this, 'Late', @i)">
+                                LATE
+                            </button>
+                            <input type="hidden" name="students[@i].Status" id="status-@i" value="@status" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="action-buttons">
+            <button type="submit" class="btn">SAVE ATTENDANCE</button>
+        </div>
+    </form>
+
+    <script>
+        document.getElementById('datePicker').addEventListener('change', function() {
+            const selectedDate = this.value;
+            const section = '@Model.Section';
+            const subject = '@Model.Subject';
+            if (selectedDate) {
+                window.location.href = `/IPT102/Attendance?section=${encodeURIComponent(section)}&subject=${encodeURIComponent(subject)}&date=${selectedDate}`;
+            }
+        });
+
+        function setStatus(button, status, index) {
+            const row = button.closest('tr');
+            row.querySelectorAll('.status-btn').forEach(btn => {
+                btn.classList.remove('present', 'absent', 'late');
+                btn.classList.add('unmarked');
+            });
+            button.classList.remove('unmarked');
+            button.classList.add(status.toLowerCase());
+            document.getElementById(`status-${index}`).value = status;
+        }
+    </script>
+</body>
+</html>

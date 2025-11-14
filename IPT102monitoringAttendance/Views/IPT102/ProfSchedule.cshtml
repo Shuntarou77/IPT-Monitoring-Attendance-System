@@ -1,0 +1,633 @@
+﻿@model List<IPT102monitoringAttendance.Models.ClassSchedule>
+@{
+    ViewData["Title"] = "Professor Schedule";
+    Layout = null;
+    string selectedDay = ViewBag.SelectedDay ?? "Monday";
+    var allDays = new[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Monitoring System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2c007e, #1a004d);
+            color: white;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+            position: relative; /* allow centering title independently */
+        }
+        .actions-right {
+            position: absolute;
+            right: 0;
+            top: 0;
+            display: flex;
+            gap: .5rem;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            background: #b3d9ff;
+            color: #6b40e3;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+            .btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin: 0; /* keep only text centered; other buttons stay in their places */
+        }
+
+        .day-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .day-btn {
+            padding: 0.5rem 1rem;
+            background: #b3d9ff;
+            border: 1px solid #6b40e3;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+            .day-btn.active {
+                background: #cce5ff;
+                border-color: #6b40e3;
+                transform: scale(1.05);
+            }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table-header {
+            background: rgba(255, 255, 255, 0.2);
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .table-row {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .table-cell {
+            padding: 1rem;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+            .table-cell:last-child {
+                border-right: none;
+            }
+
+        .add-section-form {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+            .add-section-form input {
+                padding: 0.5rem;
+                border-radius: 10px;
+                border: 1px solid white;
+                background: rgba(255,255,255,0.9);
+                color: #333;
+                min-width: 120px;
+            }
+
+        .delete-btn {
+            background: #ff6b6b;
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 2rem;
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        @@media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .title {
+                font-size: 2rem;
+            }
+
+            .day-buttons {
+                justify-content: center;
+            }
+
+            .schedule-table {
+                font-size: 0.9rem;
+            }
+
+            .table-cell {
+                padding: 0.5rem;
+            }
+
+            .add-section-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .modal-card {
+            width: 100%;
+            max-width: 520px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 14px;
+            padding: 1.25rem;
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: .75rem;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+
+        .modal-close {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .modal-row {
+            display: flex;
+            gap: .5rem;
+            align-items: center;
+            margin: .6rem 0;
+        }
+
+            .modal-row label {
+                min-width: 120px;
+            }
+
+            .modal-row input[type="text"], .modal-row input[type="date"] {
+                width: 100%;
+                padding: .8rem 1rem;
+                border-radius: 999px;
+                border: 1px solid rgba(255,255,255,.35);
+                background: rgba(255,255,255,.95);
+                color: #333;
+                outline: none;
+            }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: .5rem;
+            margin-top: .75rem;
+        }
+
+        .modal-btn {
+            padding: .7rem 1.1rem;
+            border: none;
+            border-radius: 999px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+            .modal-btn.primary {
+                background: #b3d9ff;
+                color: #6b40e3;
+            }
+
+            .modal-btn.ghost {
+                background: rgba(255,255,255,0.15);
+                color: white;
+                border: 1px solid rgba(255,255,255,0.25);
+            }
+
+        .toast {
+            margin-top: .6rem;
+            padding: .6rem .9rem;
+            border-radius: 10px;
+            display: none;
+        }
+
+            .toast.ok {
+                background: rgba(76,175,80,0.2);
+                border: 1px solid rgba(76,175,80,0.35);
+                color: #4CAF50;
+            }
+
+            .toast.err {
+                background: rgba(255,107,107,0.15);
+                border: 1px solid rgba(255,107,107,0.35);
+                color: #ff8f8f;
+            }
+            .room-warning {
+    color: #ff6b6b;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    display: none;
+}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="@Url.Action("Logout", "IPT102")" class="btn">LOGOUT</a>
+        <h1 class="title">PROFESSOR SCHEDULE</h1>
+        <div class="actions-right">
+            <button class="btn" type="button"
+                    onclick="openTakeModal('', '@DateTime.Today.ToString("yyyy-MM-dd")')">
+                TAKE ATTENDANCE
+            </button>
+            <a href="@Url.Action("Semester","IPT102")" class="btn">SEMESTER</a>
+            <button class="btn" type="button" onclick="openReportModal()">REPORT</button>
+        </div>
+    </div>
+
+    <div style="text-align:center; margin-bottom:1rem; opacity:.9;">
+        <span style="background: rgba(255,255,255,0.12); padding:.4rem .8rem; border-radius:12px;">
+            Active Semester: <strong>@(ViewBag.SemesterLabel ?? "-")</strong>
+        </span>
+    </div>
+
+    <div class="day-buttons">
+        @foreach (var day in allDays)
+        {
+            <button class="day-btn @(day == selectedDay ? "active" : "")"
+                    onclick="location.href='@Url.Action("ProfSchedule", "IPT102")?day=@day'">
+                @day
+            </button>
+        }
+        <button class="btn" onclick="document.getElementById('addSectionForm').style.display = 'flex';">ADD SECTION</button>
+    </div>
+    @if (TempData["Error"] != null)
+    {
+        <div style="background: rgba(255, 107, 107, 0.2); color: #ff6b6b; padding: 1rem; border-radius: 10px; margin: 1rem 0; border: 1px solid rgba(255, 107, 107, 0.3);">
+            ❌ @TempData["Error"]
+        </div>
+    }
+
+    @if (TempData["Success"] != null)
+    {
+        <div style="background: rgba(76, 175, 80, 0.2); color: #4CAF50; padding: 1rem; border-radius: 10px; margin: 1rem 0; border: 1px solid rgba(76, 175, 80, 0.3);">
+            ✅ @TempData["Success"]
+        </div>
+    }
+
+    <form id="addSectionForm" class="add-section-form" style="display:none;"
+          asp-action="AddSection" asp-controller="IPT102" method="post">
+
+        <!-- Notification area -->
+        <div id="formNotification"
+             style="display:none; background-color:#ff6b6b; color:white; padding:8px; border-radius:6px;
+                margin-bottom:10px; text-align:center; font-weight:500;">
+        </div>
+
+        <input type="hidden" name="day" value="@ViewBag.SelectedDay" />
+
+        <label style="color:white;">Start Time:</label>
+        <input type="time" name="startTime" id="startTime"
+               min="07:00" max="19:00" step="1800" required />
+
+        <label style="color:white;">End Time:</label>
+        <input type="time" name="endTime" id="endTime"
+               min="09:00" max="21:00" step="1800" required />
+
+        <input type="text" name="section" placeholder="Section (e.g., SBIT-3L)" required />
+        <input type="text" name="roomNumber" id="roomNumber"
+               placeholder="Room Number (e.g., IL606, IK605)" required
+               pattern="^(IL|IK|IE)\d{3}$" />
+        <div class="room-warning"
+             style="display:none; color:#ff6b6b; font-size:0.85rem; margin-top:0.25rem;">
+            Room code must be in format: IL###, IK###, or IE### (e.g., IL606, IK605, IE205)
+        </div>
+        <input type="text" name="subject" placeholder="Subject" required />
+
+        <button type="submit" class="btn">SAVE</button>
+        <button type="button" class="btn"
+                onclick="this.closest('form').style.display='none';">
+            CANCEL
+        </button>
+    </form>
+
+
+
+
+
+    <!-- Schedule Table -->
+    <table class="schedule-table">
+        <thead>
+            <tr class="table-header">
+                <th class="table-cell">TIME</th>
+                <th class="table-cell">SECTION</th>
+                <th class="table-cell">ROOM NUMBER</th>
+                <th class="table-cell">SUBJECT</th>
+                <th class="table-cell">ACTION</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count == 0)
+            {
+                <tr>
+                    <td colspan="5" class="empty-message">
+                        No classes scheduled for @selectedDay.
+                    </td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var item in Model)
+                {
+                    <tr class="table-row">
+                        <td class="table-cell">@item.Time</td>
+                        <td class="table-cell">
+                            <a href="@Url.Action("Attendance", "IPT102", new { section = item.Section, subject = item.Subject, date = DateTime.Today.ToString("yyyy-MM-dd") })"
+                               style="color: white; text-decoration: underline; cursor: pointer;">
+                                @item.Section
+                            </a>
+                        </td>
+                        <td class="table-cell">@item.RoomNumber</td>
+                        <td class="table-cell">@item.Subject</td>
+                        <td class="table-cell">
+                            <button type="button" class="btn"
+                                    onclick="openTakeModal('@item.Section', '@DateTime.Today.ToString("yyyy-MM-dd")')">
+                                TAKE
+                            </button>
+                            <form asp-action="DeleteSection" asp-controller="IPT102" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <input type="hidden" name="day" value="@selectedDay" />
+                                <button type="submit" class="delete-btn"
+                                        onclick="return confirm('Are you sure you want to delete this section?');">
+                                    DELETE
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <!-- Take Attendance Modal -->
+    <div id="takeModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title">Take Attendance</div>
+                <button type="button" class="modal-close" onclick="closeTakeModal()">×</button>
+            </div>
+
+            <form id="takeForm" method="post" asp-action="TakeAttendancePost" asp-controller="IPT102">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="section" id="modalSection" />
+                <div class="modal-row">
+                    <label>Date</label>
+                    <input type="date" name="date" id="modalDate" />
+                </div>
+                <div class="modal-row">
+                    <label>Student Number</label>
+                    <input type="text" name="studentNumber" id="modalStudentNumber" placeholder="Enter XX-XXXX" required />
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="modal-btn ghost" onclick="closeTakeModal()">Cancel</button>
+                    <button type="submit" class="modal-btn primary">Mark Present</button>
+                </div>
+                <div id="takeToast" class="toast"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Report Modal -->
+    <div id="reportModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title">Download Section Report (PDF)</div>
+                <button type="button" class="modal-close" onclick="closeReportModal()">×</button>
+            </div>
+            <div class="modal-row">
+                <label>Section</label>
+                <input type="text" id="reportSection" placeholder="e.g., SBIT-3L" />
+            </div>
+            <div class="modal-row">
+                <label>Semester (optional)</label>
+                <input type="text" id="reportSemester" placeholder="e.g., 2025-1 (leave blank for current)" />
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="modal-btn ghost" onclick="closeReportModal()">Cancel</button>
+                <button type="button" class="modal-btn primary" onclick="downloadReport()">Download PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const takeModal = document.getElementById('takeModal');
+        const modalSection = document.getElementById('modalSection');
+        const modalDate = document.getElementById('modalDate');
+        const modalSN = document.getElementById('modalStudentNumber');
+        const toast = document.getElementById('takeToast');
+
+        function openTakeModal(section, dateStr) {
+          modalSection.value = section || '';
+          modalDate.value = dateStr || new Date().toISOString().slice(0,10);
+          modalSN.value = '';
+          toast.style.display = 'none';
+          takeModal.style.display = 'flex';
+          modalSN.focus();
+        }
+        function closeTakeModal() {
+          takeModal.style.display = 'none';
+        }
+
+        document.getElementById('takeForm').addEventListener('submit', async function(e){
+          e.preventDefault();
+          toast.style.display = 'none';
+
+          const form = e.target;
+          const data = new FormData(form);
+
+          const resp = await fetch(form.action, {
+            method: 'POST',
+            body: data,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+          });
+
+          if (resp.ok) {
+            toast.className = 'toast ok';
+            toast.textContent = 'Attendance marked (Present) if student exists for this section.';
+            toast.style.display = 'block';
+            modalSN.value = '';
+            modalSN.focus();
+          } else {
+            toast.className = 'toast err';
+            toast.textContent = 'Unable to mark attendance. Check student number.';
+            toast.style.display = 'block';
+          }
+        });
+
+        takeModal.addEventListener('click', function(e){
+          if (e.target === takeModal) closeTakeModal();
+        });
+
+        // Report modal logic
+        const reportModal = document.getElementById('reportModal');
+        function openReportModal(){ reportModal.style.display = 'flex'; }
+        function closeReportModal(){ reportModal.style.display = 'none'; }
+        reportModal.addEventListener('click', function(e){ if(e.target===reportModal) closeReportModal(); });
+        function downloadReport(){
+            const section = document.getElementById('reportSection').value.trim();
+            const semester = document.getElementById('reportSemester').value.trim();
+            if(!section){ alert('Please enter section'); return; }
+            const url = new URL('@Url.Action("DownloadSectionReport","IPT102")', window.location.origin);
+            url.searchParams.set('section', section);
+            if(semester) url.searchParams.set('semester', semester);
+            window.location.href = url.toString();
+            closeReportModal();
+        }
+    </script>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const roomInput = document.getElementById('roomNumber');
+    const warning = roomInput.nextElementSibling;
+    
+    if (roomInput && warning) {
+        roomInput.addEventListener('input', function(e) {
+            const value = e.target.value;
+            const validFormat = /^(IL|IK|IE)\d{3}$/;
+            
+            if (value && !validFormat.test(value)) {
+                e.target.classList.add('room-input-error');
+                warning.style.display = 'block';
+            } else {
+                e.target.classList.remove('room-input-error');
+                warning.style.display = 'none';
+            }
+        });
+        
+        roomInput.addEventListener('blur', function(e) {
+            const value = e.target.value;
+            const validFormat = /^(IL|IK|IE)\d{3}$/;
+            
+            if (value && !validFormat.test(value)) {
+                warning.style.display = 'block';
+            }
+        });
+    }
+});
+</script>
+
+    <script>
+        const startInput = document.getElementById("startTime");
+        const endInput = document.getElementById("endTime");
+        const notif = document.getElementById("formNotification");
+
+        function showNotification(message) {
+            notif.textContent = message;
+            notif.style.display = "block";
+            notif.style.backgroundColor = "#ff6b6b"; // red for error
+        }
+
+        function clearNotification() {
+            notif.textContent = "";
+            notif.style.display = "none";
+        }
+
+        function validateTimeRange() {
+            clearNotification();
+            const start = startInput.value;
+            const end = endInput.value;
+            if (!start || !end) return;
+
+            const startDate = new Date(`1970-01-01T${start}:00`);
+            const endDate = new Date(`1970-01-01T${end}:00`);
+            const diffHours = (endDate - startDate) / (1000 * 60 * 60);
+
+            if (endDate <= startDate) {
+                showNotification("⚠️ End time must be later than start time.");
+                endInput.value = "";
+                return;
+            }
+
+            if (diffHours < 2 || diffHours > 3) {
+                showNotification("⚠️ Time interval must be between 2 to 3 hours.");
+                endInput.value = "";
+                return;
+            }
+        }
+
+        // Validate when start or end changes
+        startInput.addEventListener("change", validateTimeRange);
+        endInput.addEventListener("change", validateTimeRange);
+    </script>
+
+
+
+
+</body>
+</html>

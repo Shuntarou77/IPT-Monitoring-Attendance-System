@@ -1,0 +1,261 @@
+﻿@{
+    Layout = null;
+    var student = ViewBag.Student;
+    var subjects = (IEnumerable<string>)ViewBag.Subjects ?? Enumerable.Empty<string>();
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #2c007e, #1a004d);
+            color: white;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        
+        .dash-container {
+        margin-top: 50px;    
+        width: 98vw;    
+        min-width: 900px;    
+        max-width: 1200px;    
+        background: rgba(255,255,255,0.07);    
+        padding: 2rem 2.5rem 2.5rem 2.5rem;    
+        border-radius: 20px;    
+        box-shadow: 0 6px 46px rgba(0,0,0,0.08);}
+
+        .logout-btn {
+            position: absolute;
+            top: 36px;
+            right: 44px;
+            padding: 0.6rem 1.5rem;
+            border: none;
+            border-radius: 16px;
+            background: #b3d9ff;
+            color: #6b40e3;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 3px 15px 0 rgba(54,0,100,0.13);
+            transition: .18s;
+        }
+
+            .logout-btn:hover {
+                background: #fff;
+                color: #2c007e;
+            }
+
+        .header-title {
+            font-size: 3rem;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 2.25rem;
+        }
+
+        .subtitle {
+            font-size: 1.22rem;
+            font-weight: 500;
+            margin: 1.1rem 0 0.8rem 0;
+            letter-spacing: 1.8px;
+        }
+
+        .subjects-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            margin-top: .4rem;
+        }
+
+        .subject-btn {
+            padding: .7rem 1.5rem;
+            border: none;
+            border-radius: 14px;
+            background: #c0f7ff;
+            color: #180055;
+            font-weight: bold;
+            font-size: 1.15rem;
+            box-shadow: 0 2px 7px rgba(0,0,0,0.09);
+            cursor: pointer;
+            transition: 0.17s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+            .subject-btn:hover {
+                background: #fff;
+                color: #2c007e;
+            }
+            
+            .subject-btn.active {
+                background: #4CAF50;
+                color: white;
+            }
+            
+            .subject-btn.inactive {
+                opacity: 0.6;
+            }
+
+        .date-bar {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2.3rem;
+        }
+
+        .date-input {
+            border-radius: 14px;
+            border: none;
+            font-size: 1.14rem;
+            padding: .85rem 1.4rem;
+            background: #b3d9ff;
+            color: #170061;
+        }
+
+        .studinfo-bar {
+            width: 100%;
+            text-align: center;
+            margin-top: 1.6rem;
+        }
+
+            .studinfo-bar span {
+                font-size: 1.22rem;
+                font-weight: 600;
+                letter-spacing: 1.1px;
+            }
+           .att-table-container {
+    width: 100%;
+    overflow-x: auto;
+    display: flex;
+    justify-content: center;
+}
+.attendance-table {
+    width: 100%;
+    min-width: 900px;
+    border-radius: 14px;
+    border-collapse: collapse;
+    margin: 1.35rem 0;
+    background: rgba(255,255,255,0.10);
+    box-shadow: 0 2px 12px 0 rgba(32,33,71,0.07);
+}
+.attendance-table th, .attendance-table td {
+    padding: 0.8rem 1rem;
+    text-align: center;
+    font-size: 1.08rem;
+    border: 1px solid #6b40e364;
+}
+.attendance-table th {
+    font-weight: 700;
+    background: #7261b9e0;
+}
+.attendance-table td:first-child,
+.attendance-table th:first-child {
+    font-weight: bold;
+    background: #b3d9ff !important;
+    color: #220964;
+}
+.attendance-table td.status-cell {
+    font-weight: 500;
+}
+.attendance-table td.status-cell:not([data-status]) {
+    opacity: 0.5;
+    color: #999;
+}
+.attendance-table td.status-cell[data-status="Present"] {
+    color: #4CAF50;
+    font-weight: bold;
+}
+.attendance-table td.status-cell[data-status="Absent"] {
+    color: #f44336;
+    font-weight: bold;
+}
+.attendance-table td.status-cell[data-status="Late"] {
+    color: #FF9800;
+    font-weight: bold;
+}
+    </style>
+</head>
+<body>
+    <a href="@Url.Action("Logout", "IPT102")" class="logout-btn">LOGOUT</a>
+   <div class="dash-container">
+    <div class="header-title">ATTENDANCE</div>
+    <div style="text-align:center; margin-bottom:1rem;">
+        <span style="background: rgba(255,255,255,0.12); padding:.4rem .8rem; border-radius:12px;">
+            @(ViewBag.SemesterLabel ?? "")
+        </span>
+    </div>
+    <div class="subtitle">PICK YOUR SUBJECT:</div>
+    <div class="subjects-bar">
+    @{
+        var selectedSubject = ViewBag.SelectedSubject as string;
+    }
+    @foreach (var subj in subjects)
+    {
+        var isActive = subj == selectedSubject;
+        <a href="@Url.Action("StudentDashboard", "IPT102", new { subject = subj })" 
+           class="subject-btn @(isActive ? "active" : "")">@subj</a>
+    }
+    </div>
+    @if (!string.IsNullOrWhiteSpace(selectedSubject) && ViewBag.ProfessorName != null)
+    {
+        <div style="text-align: center; margin-bottom: 1.5rem; margin-top: -0.5rem;">
+            <span style="font-size: 1rem; color: rgba(255,255,255,0.85); font-style: italic;">
+                Professor: <strong style="color: #b3d9ff;">@(ViewBag.ProfessorName ?? "N/A")</strong>
+            </span>
+        </div>
+    }
+    <div class="att-table-container">
+    <table class="attendance-table">
+        <tr>
+            <th>WEEKS</th>
+            @for (int i = 1; i <= 9; i++)
+            {
+                <th>WEEK @i</th>
+            }
+        </tr>
+        <tr>
+            <td>STATUS</td>
+            @for (int i = 1; i <= 9; i++)
+            {
+                var status = (string[])(ViewBag.WeekStatuses ?? new string[18]);
+                var statusValue = status[i-1];
+                var hasStatus = !string.IsNullOrWhiteSpace(statusValue) && statusValue != "-";
+                <td class="status-cell" data-status="@(hasStatus ? statusValue : "")">@(hasStatus ? statusValue : "-")</td>
+            }
+        </tr>
+        <tr>
+            <th>WEEKS</th>
+            @for (int i = 10; i <= 18; i++)
+            {
+                <th>WEEK @i</th>
+            }
+        </tr>
+        <tr>
+            <td>STATUS</td>
+            @for (int i = 10; i <= 18; i++)
+            {
+                var status = (string[])(ViewBag.WeekStatuses ?? new string[18]);
+                var statusValue = status[i-1];
+                var hasStatus = !string.IsNullOrWhiteSpace(statusValue) && statusValue != "-";
+                <td class="status-cell" data-status="@(hasStatus ? statusValue : "")">@(hasStatus ? statusValue : "-")</td>
+            }
+        </tr>
+    </table>
+</div>
+    <div class="studinfo-bar">
+        <span>
+            @student.FullName (@student.StudentNumber) - Section: @(ViewBag.StudentSection ?? "N/A")
+        </span>
+    </div>
+</div>
+</body>
+</html>

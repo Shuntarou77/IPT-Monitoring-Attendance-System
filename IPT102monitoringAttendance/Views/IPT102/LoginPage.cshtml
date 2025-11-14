@@ -1,0 +1,258 @@
+﻿@model IPT102monitoringAttendance.Models.LoginViewModel
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Login - IPT102 Attendance";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Monitoring System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            height: 100vh;
+            background: linear-gradient(135deg, #2c007e, #1a004d);
+            color: white;
+        }
+
+        .left-panel {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #2c007e, #1a004d);
+        }
+
+        .system-title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+        }
+
+        .right-panel {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #6b40e3, #8e44ad);
+        }
+
+        .login-form {
+            width: 80%;
+            max-width: 400px;
+        }
+
+        .login-title {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .hash-generator-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .hash-generator-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .hash-generator-btn:active {
+            transform: translateY(0);
+        }
+
+        @@media (max-width: 768px) {
+            .hash-generator-btn {
+                top: 10px;
+                left: 10px;
+                padding: 6px 10px;
+                font-size: 0.7rem;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-label {
+            width: 100px;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+
+        .form-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid white;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+            .form-input:focus {
+                border-color: #6b40e3;
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            }
+
+        .login-button {
+            width: 100%;
+            padding: 0.75rem;
+            margin-top: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            color: #6b40e3;
+            border: none;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+            .login-button:hover {
+                background: white;
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            }
+
+        .create-account {
+            margin-top: 2rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid white;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+            .create-account:hover {
+                background: rgba(255, 255, 255, 0.3);
+                transform: scale(1.05);
+            }
+
+        @@media (max-width: 768px) {
+            body
+
+        {
+            flex-direction: column;
+        }
+
+        .left-panel, .right-panel {
+            width: 100%;
+            padding: 1.5rem;
+        }
+
+        .system-title {
+            font-size: 2.5rem;
+        }
+
+        .login-title {
+            font-size: 2.5rem;
+        }
+
+        .form-group {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .form-label {
+            width: auto;
+            margin-bottom: 0.5rem;
+        }
+
+        }
+    </style>
+</head>
+<body>
+    <div class="left-panel">
+        <h1 class="system-title">ATTENDANCE MONITORING SYSTEM</h1>
+    </div>
+<a href="@Url.Action("PasswordHashGenerator", "IPT102")" class="hash-generator-btn">
+        🔐 Hash Generator
+    </a>
+
+    <div class="right-panel">
+        <div class="login-form">
+            <h2 class="login-title">LOG-IN</h2>
+
+            <form asp-action="LoginPage" asp-controller="IPT102" method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    <label for="Username" class="form-label">USERNAME:</label>
+                    <input asp-for="Username" class="form-input" placeholder="Enter your username" required />
+                    <span asp-validation-for="Username" class="text-danger" style="color: #ff9999; font-size: 0.85rem;"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="Password" class="form-label">PASSWORD:</label>
+                    <input asp-for="Password" class="form-input" placeholder="Enter your password" required />
+                    <span asp-validation-for="Password" class="text-danger" style="color: #ff9999; font-size: 0.85rem;"></span>
+                </div>
+
+                @if (ViewData.ModelState.ContainsKey(""))
+                {
+                    <div class="text-danger text-center" style="margin: 0.75rem 0; color: #ff6b6b; font-weight: bold;">
+                        @Html.ValidationSummary(true)
+                    </div>
+                }
+
+                <button type="submit" class="login-button">LOG-IN</button>
+            </form>
+
+            <div style="text-align: center; margin-top: 1rem;">
+                <a href="@Url.Action("ForgotPassword", "IPT102")" style="color: rgba(255, 255, 255, 0.8); text-decoration: none; font-size: 0.9rem; transition: color 0.3s ease;" onmouseover="this.style.color='white'; this.style.textDecoration='underline';" onmouseout="this.style.color='rgba(255, 255, 255, 0.8)'; this.style.textDecoration='none';">
+                    Forgot Password?
+                </a>
+            </div>
+
+            <div class="create-account" onclick="location.href='@Url.Action("ProfessorRegistration", "IPT102")'" style="margin-top: 1.5rem; margin-bottom: 1rem;">
+    CREATE PROFESSOR ACCOUNT
+</div>
+            <div class="create-account" onclick="location.href='@Url.Action("StudentRegistrationWithSections", "IPT102")'">
+    CREATE STUDENT ACCOUNT
+</div>
+        </div>
+    </div>
+</body>
+</html>

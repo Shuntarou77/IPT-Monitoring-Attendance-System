@@ -1,0 +1,36 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Semester Settings</title>
+    <style>
+        body { background: linear-gradient(135deg,#2c007e,#1a004d); color: #fff; font-family: Segoe UI, Arial, sans-serif; padding: 2rem; }
+        .container { max-width: 620px; margin: 0 auto; background: rgba(255,255,255,0.08); padding: 1.5rem; border-radius: 14px; }
+        .row { display: flex; gap: .75rem; align-items: center; }
+        .input { padding: .6rem .9rem; border: none; border-radius: 10px; color: #180055; }
+        .btn { padding: .6rem 1rem; border: none; border-radius: 10px; background: #b3d9ff; color: #6b40e3; font-weight: bold; cursor: pointer; }
+        .title { text-align:center; font-size: 1.6rem; margin-bottom: .8rem; font-weight: bold; }
+        .current { text-align:center; margin-bottom: 1rem; }
+        a { color: #b3d9ff; }
+    </style>
+    </head>
+<body>
+    <div class="container">
+        <div class="title">Semester Settings</div>
+        <div class="current">Current Semester: <strong>@ViewBag.CurrentSemester</strong></div>
+        <form asp-action="Semester" asp-controller="IPT102" method="post">
+            <div class="row">
+                <input class="input" type="text" name="semester" placeholder="e.g., 2025-1" required />
+                <button class="btn" type="submit">Update</button>
+            </div>
+        </form>
+        <div style="margin-top:1rem; text-align:center;">
+            <a href="@Url.Action("ProfSchedule","IPT102")">Back to Schedule</a>
+        </div>
+    </div>
+</body>
+</html>
+
