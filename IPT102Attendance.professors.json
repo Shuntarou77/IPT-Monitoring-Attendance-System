@@ -1,0 +1,61 @@
+[{
+  "_id": {
+    "$oid": "68f8c369d092a102e12ab91a"
+  },
+  "username": "newprofessor",
+  "passwordHash": "$2a$11$0vylmrYtI6sKzXbLoKTQ4O1lPalMHge0CigJzpb.UdnYBclLMoQSO",
+  "email": "newprofessor@university.edu",
+  "role": "Professor",
+  "createdAt": {
+    "$date": "2024-01-15T10:30:00.000Z"
+  },
+  "lastLogin": {
+    "$date": "2025-10-22T11:46:51.357Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68f8c3762331e6f762918aeb"
+  },
+  "username": "professor",
+  "passwordHash": "$2a$11$YpS3LmG6C4uegJUT4R3/lOox5hogJHv8QRXgHkatYWYyMGRiJTRUC",
+  "email": "professor@university.edu",
+  "role": "Professor",
+  "createdAt": {
+    "$date": "2025-10-22T11:43:50.312Z"
+  },
+  "lastLogin": null
+},
+{
+  "_id": {
+    "$oid": "68f8c840d092a102e12ab91c"
+  },
+  "username": "prof1",
+  "passwordHash": "$2a$11$28lUtyAb4lw6z/5.UnzLaOzv/XCp2Zkrk9GPRadsdghdaVnhZHNVe",
+  "email": "prof1@university.edu",
+  "role": "Professor",
+  "createdAt": {
+    "$date": "2024-01-15T12:00:00.000Z"
+  },
+  "lastLogin": {
+    "$date": "2025-11-12T09:06:42.313Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691459989f63c4c581581326"
+  },
+  "name": "Sir Alarilla",
+  "username": "alarilla",
+  "passwordHash": "$2a$11$lBJAv/MkB.qDeYJX3HpmKu2v8T4DgHH/jg2GsIsj4s/WPCBw7a5sO",
+  "email": "jhonrey.loreno77@gmail.com",
+  "role": "Professor",
+  "createdAt": {
+    "$date": "2025-11-12T09:55:36.531Z"
+  },
+  "lastLogin": {
+    "$date": "2025-11-12T09:57:05.738Z"
+  },
+  "passwordResetToken": null,
+  "passwordResetTokenExpiry": null
+}]

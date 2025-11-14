@@ -1,0 +1,54 @@
+[{
+  "_id": {
+    "$oid": "6905b0fae2658d694d4eeffd"
+  },
+  "day": "Monday",
+  "time": "07:00 AM - 10:00 AM",
+  "section": "SBIT-3M",
+  "roomNumber": "IL606",
+  "subject": "SIA101",
+  "createdAt": {
+    "$date": "2025-11-01T07:04:26.709Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6905b47dc827c808a33a64ff"
+  },
+  "day": "Monday",
+  "time": "11:00 AM - 02:00 PM",
+  "section": "SBIT-3L",
+  "roomNumber": "IL505",
+  "subject": "MATH101",
+  "createdAt": {
+    "$date": "2025-11-01T07:19:25.476Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69144e431675ce5bae248c57"
+  },
+  "day": "Monday",
+  "time": "07:00 AM - 10:00 AM",
+  "section": "SBIT-3L",
+  "roomNumber": "IE104",
+  "subject": "SPI101",
+  "professorUsername": "prof1",
+  "createdAt": {
+    "$date": "2025-11-12T09:07:15.581Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691459b29f63c4c581581327"
+  },
+  "day": "Thursday",
+  "time": "07:00 AM - 09:00 AM",
+  "section": "SBIT-3L",
+  "roomNumber": "IL605",
+  "subject": "IPT102",
+  "professorUsername": "alarilla",
+  "createdAt": {
+    "$date": "2025-11-12T09:56:02.192Z"
+  }
+}]

@@ -1,0 +1,28 @@
+[{
+  "_id": {
+    "$oid": "6905b0d4e2658d694d4eeffc"
+  },
+  "studentNumber": "23-1940",
+  "firstName": "Jhon Ray",
+  "middleName": "Monterde",
+  "lastName": "Loreño",
+  "section": "SBIT-3L",
+  "createdAt": {
+    "$date": "2025-11-01T07:03:48.301Z"
+  },
+  "fullName": "Jhon Ray Monterde Loreño"
+},
+{
+  "_id": {
+    "$oid": "6905b106e2658d694d4eeffe"
+  },
+  "studentNumber": "23-1111",
+  "firstName": "test",
+  "middleName": "test",
+  "lastName": "test",
+  "section": "SBIT-3M",
+  "createdAt": {
+    "$date": "2025-11-01T07:04:38.379Z"
+  },
+  "fullName": "test test test"
+}]

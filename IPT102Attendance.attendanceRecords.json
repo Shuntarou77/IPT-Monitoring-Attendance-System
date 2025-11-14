@@ -1,0 +1,62 @@
+[{
+  "_id": {
+    "$oid": "6905b429c827c808a33a64fd"
+  },
+  "studentId": "6905b0d4e2658d694d4eeffc",
+  "section": "SBIT-3L",
+  "date": {
+    "$date": "2025-10-31T16:00:00.000Z"
+  },
+  "status": "Present",
+  "semester": "2025-1",
+  "createdAt": {
+    "$date": "2025-11-01T07:18:01.912Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6905b42fc827c808a33a64fe"
+  },
+  "studentId": "6905b106e2658d694d4eeffe",
+  "section": "SBIT-3M",
+  "date": {
+    "$date": "2025-10-31T16:00:00.000Z"
+  },
+  "status": "Absent",
+  "semester": "2025-1",
+  "createdAt": {
+    "$date": "2025-11-01T07:18:07.076Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6905b5eec8468a1c79a686fc"
+  },
+  "studentId": "6905b0d4e2658d694d4eeffc",
+  "section": "SBIT-3L",
+  "date": {
+    "$date": "2025-10-31T16:00:00.000Z"
+  },
+  "status": "Present",
+  "semester": "2025-1",
+  "subject": "SPI101",
+  "createdAt": {
+    "$date": "2025-11-01T07:25:34.956Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6905b619c8468a1c79a686fd"
+  },
+  "studentId": "6905b0d4e2658d694d4eeffc",
+  "section": "SBIT-3L",
+  "date": {
+    "$date": "2025-10-31T16:00:00.000Z"
+  },
+  "status": "Absent",
+  "semester": "2025-1",
+  "subject": "MATH101",
+  "createdAt": {
+    "$date": "2025-11-01T07:26:17.001Z"
+  }
+}]
