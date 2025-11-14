@@ -1,0 +1,69 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = IPT102monitoringAttendance
+build_property.RootNamespace = IPT102monitoringAttendance
+build_property.ProjectDir = D:\PC Games\IPT102\IPT102monitoringttendance - October 31, 2025 (60%)\IPT102monitoringttendance - Backup\IPT102monitoringAttendance\IPT102monitoringAttendance\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\PC Games\IPT102\IPT102monitoringttendance - October 31, 2025 (60%)\IPT102monitoringttendance - Backup\IPT102monitoringAttendance\IPT102monitoringAttendance
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 
+
+[D:/PC Games/IPT102/IPT102monitoringttendance - October 31\, 2025 (60%)/IPT102monitoringttendance - Backup/IPT102monitoringAttendance/IPT102monitoringAttendance/Views/IPT102/Attendance.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSVBUMTAyXEF0dGVuZGFuY2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PC Games/IPT102/IPT102monitoringttendance - October 31\, 2025 (60%)/IPT102monitoringttendance - Backup/IPT102monitoringAttendance/IPT102monitoringAttendance/Views/IPT102/ForgotPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSVBUMTAyXEZvcmdvdFBhc3N3b3JkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PC Games/IPT102/IPT102monitoringttendance - October 31\, 2025 (60%)/IPT102monitoringttendance - Backup/IPT102monitoringAttendance/IPT102monitoringAttendance/Views/IPT102/LoginPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSVBUMTAyXExvZ2luUGFnZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PC Games/IPT102/IPT102monitoringttendance - October 31\, 2025 (60%)/IPT102monitoringttendance - Backup/IPT102monitoringAttendance/IPT102monitoringAttendance/Views/IPT102/PasswordHashGenerator.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSVBUMTAyXFBhc3N3b3JkSGFzaEdlbmVyYXRvci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PC Games/IPT102/IPT102monitoringttendance - October 31\, 2025 (60%)/IPT102monitoringttendance - Backup/IPT102monitoringAttendance/IPT102monitoringAttendance/Views/IPT102/ProfessorRegistration.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSVBUMTAyXFByb2Zlc3NvclJlZ2lzdHJhdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PC Games/IPT102/IPT102monitoringttendance - October 31\, 2025 (60%)/IPT102monitoringttendance - Backup/IPT102monitoringAttendance/IPT102monitoringAttendance/Views/IPT102/ProfSchedule.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSVBUMTAyXFByb2ZTY2hlZHVsZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PC Games/IPT102/IPT102monitoringttendance - October 31\, 2025 (60%)/IPT102monitoringttendance - Backup/IPT102monitoringAttendance/IPT102monitoringAttendance/Views/IPT102/ResetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSVBUMTAyXFJlc2V0UGFzc3dvcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PC Games/IPT102/IPT102monitoringttendance - October 31\, 2025 (60%)/IPT102monitoringttendance - Backup/IPT102monitoringAttendance/IPT102monitoringAttendance/Views/IPT102/Semester.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSVBUMTAyXFNlbWVzdGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PC Games/IPT102/IPT102monitoringttendance - October 31\, 2025 (60%)/IPT102monitoringttendance - Backup/IPT102monitoringAttendance/IPT102monitoringAttendance/Views/IPT102/StudentDashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSVBUMTAyXFN0dWRlbnREYXNoYm9hcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PC Games/IPT102/IPT102monitoringttendance - October 31\, 2025 (60%)/IPT102monitoringttendance - Backup/IPT102monitoringAttendance/IPT102monitoringAttendance/Views/IPT102/StudentRegistration.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSVBUMTAyXFN0dWRlbnRSZWdpc3RyYXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PC Games/IPT102/IPT102monitoringttendance - October 31\, 2025 (60%)/IPT102monitoringttendance - Backup/IPT102monitoringAttendance/IPT102monitoringAttendance/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PC Games/IPT102/IPT102monitoringttendance - October 31\, 2025 (60%)/IPT102monitoringttendance - Backup/IPT102monitoringAttendance/IPT102monitoringAttendance/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 

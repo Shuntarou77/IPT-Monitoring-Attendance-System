@@ -27,8 +27,8 @@ x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
-[Bb]in/
-[Oo]bj/
+# [Bb]in/  # Commented out to include bin files in repository
+# [Oo]bj/  # Commented out to include obj files in repository
 [Ll]og/
 [Ll]ogs/
 
