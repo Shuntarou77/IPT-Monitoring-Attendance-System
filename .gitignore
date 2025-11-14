@@ -376,7 +376,8 @@ FodyWeavers.xsd
 *.sln.iml
 
 # Sensitive configuration files
-appsettings.json
+# appsettings.json - Removed from ignore to include in repository
 appsettings.*.json
 !appsettings.example.json
+!appsettings.json
 
